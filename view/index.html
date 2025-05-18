@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Messages</title>
+
+	<style>
+		:root {
+			--br: 3.5vh;
+			--br2: 3.7vh;
+			--bw: .35vh;
+
+			--bg: #070708;
+			--main: #1b1b1c;
+			--border: #424244;
+
+			--glow-size: 200vh;
+			--glow-clr: #f5f5ff77;
+
+			--columns: 2;
+			--gap: 2vw;
+			--toggle-height: 10vh;
+		}
+
+		body {
+			background: var(--bg);
+			margin: 0;
+			position: relative;
+		}
+		.card::before {
+			content: "";
+			position: absolute;
+
+			top: 50%;
+			left: 50%;
+			width: calc(100% + (2 * var(--bw)));
+			height: calc(100% + (2 * var(--bw)));
+			transform: translate(-50%, -50%);
+			background: var(--border);
+			border-radius: var(--br2);
+			z-index: -2;
+		}
+		.glow {
+			--px: calc((var(--glow-x) * 1px) + var(--bw));
+			--py: calc((var(--glow-y) * 1px) + var(--bw));
+
+			display: block;
+			position: absolute;
+			top: calc(0px - var(--bw));
+			left: calc(0px - var(--bw));
+			width: calc(100% + (2 * var(--bw)));
+			height: calc(100% + (2 * var(--bw)));
+			border-radius: var(--br2);
+			background: radial-gradient(var(--glow-size) circle at var(--px) var(--py), var(--glow-clr), transparent 30%);
+
+			z-index: -1;
+		}
+
+		#toggle {
+			position: fixed;
+			bottom: var(--gap);
+			right: var(--gap);
+
+			height: var(--toggle-height);
+			padding: 0 var(--gap);
+
+			border-radius: calc(var(--br) / 2);
+			border: 2px solid var(--glow-clr);
+			background: var(--main);
+			color: #fff;
+			font-family: Arial;
+			font-weight: 500;
+			font-size: calc(var(--toggle-height) * 0.4);
+
+			z-index: 100;
+		}
+
+		#messages {
+			width: calc(100% - (2 * var(--gap)));
+			height: max-content;
+			margin: calc(var(--gap) - var(--bw)) var(--gap) calc((var(--gap) - var(--bw)) + var(--toggle-height) + var(--gap)) var(--gap);
+
+			display: grid;
+			grid-template-columns: repeat(var(--columns), 1fr);
+			gap: var(--gap);
+		}
+		.card {
+			--fs: 2vw;
+			position: relative;
+			width: 100%;
+			height: max-content;
+			background: var(--main);
+			border-radius: var(--br);
+		}
+		.card h2, .card p, .card h3, .card h4, .card h5 {
+			font-family: Arial;
+			color: #fff;
+			font-weight: 500;
+		}
+		.card h2 {
+			font-weight: 700;
+			font-size: calc(var(--fs) * 1.4);
+			margin: calc(var(--fs) * 1.25) calc(var(--fs) * 1.4) calc(var(--fs) * 1.1) calc(var(--fs) * 1.4);
+		}
+		.card p {
+			font-size: var(--fs);
+			margin: calc(var(--fs) * 0.5) calc(var(--fs) * 1.4);
+		}
+		.card h3 {
+			font-weight: 700;
+			font-size: var(--fs);
+			margin: var(--fs) calc(var(--fs) * 1.4);
+			width: calc(100% - (var(--fs) * 1.4 * 2));
+			text-align: right;
+		}
+		.card .info, .card .buttons {
+			margin: var(--fs) calc(var(--fs) * 1.4) calc(var(--fs) * 1.4) calc(var(--fs) * 1.4);
+			width: calc(100% - (var(--fs) * 1.4 * 2));
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: calc(var(--fs) * 1.4);
+		}
+		.card h4, .card h5 {
+			color: var(--glow-clr);
+			font-size: calc(var(--fs) * 0.75);
+			width: 100%;
+			margin: 0;
+		}
+		.card h5 {
+			text-align: right;
+		}
+		.card .buttons {
+			row-gap: var(--fs);
+		}
+		.card .buttons button {
+			width: 100%;
+			height: calc(var(--fs) * 3);
+			border-radius: var(--br);
+			border: 2px solid var(--glow-clr);
+			background: transparent;
+			color: #fff;
+			font-family: Arial;
+			font-weight: 500;
+			font-size: var(--fs);
+		}
+		.dim {
+			--border: #323234;
+			--glow-clr: #f5f5ff22;
+		}
+		.dim h2, .dim p, .dim h3, .dim h4, .dim h5, .dim .buttons button {
+			color: #777;
+		}
+		button { transition: .2s; }
+		button:hover { transform: scale(1.02); }
+
+		@media only screen and (min-width: 125vh) {
+			:root { --columns: 3; }
+			.card { --fs: 2vh; }
+		}
+		@media only screen and (max-width: 80vh) {
+			:root {
+				--columns: 1;
+				--gap: 3vh;
+				--toggle-height: 7vh;
+			}
+			.card { --fs: 2vh; }
+		}
+	</style>
+</head>
+
+<body>
+	<div id="messages">
+		<div class="card">
+			<div class="glow"></div>
+			<h2>Example-Ref</h2>
+			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus, pellentesque sagittis turpis scelerisque quis.</p>
+			<p class="rating">Rating: <span>5</span>/5</p>
+			<h3>&mdash;&nbsp; Example Name</h3>
+			<div class="info">
+				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
+				<h5>123.123.123.123</h5>
+			</div>
+			<div class="buttons">
+				<button>Copy</button>
+				<button>Done</button>
+			</div>
+		</div>
+		<div class="card dim">
+			<div class="glow"></div>
+			<h2>Example-Ref</h2>
+			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus, pellentesque sagittis turpis scelerisque quis. Aliquam commodo ex vitae dui imperdiet, eu convallis sapien commodo. Nam a arcu nibh.</p>
+			<p class="rating">Rating: <span>5</span>/5</p>
+			<h3>&mdash;&nbsp; Example Name</h3>
+			<div class="info">
+				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
+				<h5>123.123.123.123</h5>
+			</div>
+			<div class="buttons">
+				<button>Copy</button>
+				<button>Done</button>
+			</div>
+		</div>
+		<div class="card">
+			<div class="glow"></div>
+			<h2>Example-Ref</h2>
+			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex.</p>
+			<p class="rating">Rating: <span>5</span>/5</p>
+			<h3>&mdash;&nbsp; Example Name</h3>
+			<div class="info">
+				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
+				<h5>123.123.123.123</h5>
+			</div>
+			<div class="buttons">
+				<button>Copy</button>
+				<button>Done</button>
+			</div>
+		</div>
+		<div class="card dim">
+			<div class="glow"></div>
+			<h2>Example-Ref</h2>
+			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus, pellentesque sagittis turpis scelerisque quis. Aliquam commodo ex vitae dui imperdiet, eu convallis sapien commodo. Nam a arcu nibh. Suspendisse in pellentesque eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla maximus eros in odio rhoncus, sed sodales odio tempus. Vestibulum pellentesque ultricies lectus in ornare. Aenean ac condimentum dui.</p>
+			<p class="rating">Rating: <span>5</span>/5</p>
+			<h3>&mdash;&nbsp; Example Name</h3>
+			<div class="info">
+				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
+				<h5>123.123.123.123</h5>
+			</div>
+			<div class="buttons">
+				<button>Copy</button>
+				<button>Done</button>
+			</div>
+		</div>
+		<div class="card">
+			<div class="glow"></div>
+			<h2>Example-Ref</h2>
+			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis,</p>
+			<p class="rating">Rating: <span>5</span>/5</p>
+			<h3>&mdash;&nbsp; Example Name</h3>
+			<div class="info">
+				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
+				<h5>123.123.123.123</h5>
+			</div>
+			<div class="buttons">
+				<button>Copy</button>
+				<button>Done</button>
+			</div>
+		</div>
+		<div class="card dim">
+			<div class="glow"></div>
+			<h2>Example-Ref</h2>
+			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus,</p>
+			<p class="rating">Rating: <span>5</span>/5</p>
+			<h3>&mdash;&nbsp; Example Name</h3>
+			<div class="info">
+				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
+				<h5>123.123.123.123</h5>
+			</div>
+			<div class="buttons">
+				<button>Copy</button>
+				<button>Done</button>
+			</div>
+		</div>
+	</div>
+	<button id="toggle" onclick="toggle()">Show/Hide</button>
+
+	<script>
+		const cards = document.querySelectorAll(".card");
+		document.addEventListener("pointermove", (event) => {
+			cards.forEach((ele) => {
+				const rect = ele.getBoundingClientRect();
+				ele.querySelector('.glow').style.setProperty("--glow-x", event.clientX - rect.left);
+				ele.querySelector('.glow').style.setProperty("--glow-y", event.clientY - rect.top);
+			});
+		});
+	</script>
+</body>
+</html>
