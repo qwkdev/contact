@@ -171,108 +171,116 @@
 
 <body>
 	<div id="messages">
-		<div class="card">
-			<div class="glow"></div>
-			<h2>Example-Ref</h2>
-			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus, pellentesque sagittis turpis scelerisque quis.</p>
-			<p class="rating">Rating: <span>5</span>/5</p>
-			<h3>&mdash;&nbsp; Example Name</h3>
-			<div class="info">
-				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
-				<h5>123.123.123.123</h5>
-			</div>
-			<div class="buttons">
-				<button>Copy</button>
-				<button>Done</button>
-			</div>
-		</div>
-		<div class="card dim">
-			<div class="glow"></div>
-			<h2>Example-Ref</h2>
-			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus, pellentesque sagittis turpis scelerisque quis. Aliquam commodo ex vitae dui imperdiet, eu convallis sapien commodo. Nam a arcu nibh.</p>
-			<p class="rating">Rating: <span>5</span>/5</p>
-			<h3>&mdash;&nbsp; Example Name</h3>
-			<div class="info">
-				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
-				<h5>123.123.123.123</h5>
-			</div>
-			<div class="buttons">
-				<button>Copy</button>
-				<button>Done</button>
-			</div>
-		</div>
-		<div class="card">
-			<div class="glow"></div>
-			<h2>Example-Ref</h2>
-			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex.</p>
-			<p class="rating">Rating: <span>5</span>/5</p>
-			<h3>&mdash;&nbsp; Example Name</h3>
-			<div class="info">
-				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
-				<h5>123.123.123.123</h5>
-			</div>
-			<div class="buttons">
-				<button>Copy</button>
-				<button>Done</button>
-			</div>
-		</div>
-		<div class="card dim">
-			<div class="glow"></div>
-			<h2>Example-Ref</h2>
-			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus, pellentesque sagittis turpis scelerisque quis. Aliquam commodo ex vitae dui imperdiet, eu convallis sapien commodo. Nam a arcu nibh. Suspendisse in pellentesque eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla maximus eros in odio rhoncus, sed sodales odio tempus. Vestibulum pellentesque ultricies lectus in ornare. Aenean ac condimentum dui.</p>
-			<p class="rating">Rating: <span>5</span>/5</p>
-			<h3>&mdash;&nbsp; Example Name</h3>
-			<div class="info">
-				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
-				<h5>123.123.123.123</h5>
-			</div>
-			<div class="buttons">
-				<button>Copy</button>
-				<button>Done</button>
-			</div>
-		</div>
-		<div class="card">
-			<div class="glow"></div>
-			<h2>Example-Ref</h2>
-			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis,</p>
-			<p class="rating">Rating: <span>5</span>/5</p>
-			<h3>&mdash;&nbsp; Example Name</h3>
-			<div class="info">
-				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
-				<h5>123.123.123.123</h5>
-			</div>
-			<div class="buttons">
-				<button>Copy</button>
-				<button>Done</button>
-			</div>
-		</div>
-		<div class="card dim">
-			<div class="glow"></div>
-			<h2>Example-Ref</h2>
-			<p class="main">Vestibulum eu felis molestie, euismod mi laoreet, viverra justo. Nulla convallis, enim quis egestas vulputate, mi enim volutpat felis, vitae commodo nulla elit et ex. Ut aliquet ultrices elementum. Nulla congue erat lectus,</p>
-			<p class="rating">Rating: <span>5</span>/5</p>
-			<h3>&mdash;&nbsp; Example Name</h3>
-			<div class="info">
-				<h4>12/34/56 &nbsp;&bullet;&nbsp; 12:34:56</h4>
-				<h5>123.123.123.123</h5>
-			</div>
-			<div class="buttons">
-				<button>Copy</button>
-				<button>Done</button>
-			</div>
-		</div>
 	</div>
 	<button id="toggle" onclick="toggle()">Show/Hide</button>
 
+	
+
 	<script>
-		const cards = document.querySelectorAll(".card");
-		document.addEventListener("pointermove", (event) => {
+		let key;
+		if (localStorage.getItem('apikey')) {
+			key = localStorage.getItem('apikey');
+		} else {
+			key = prompt('Enter api key:');
+			localStorage.setItem('apikey', key);
+		}
+		
+		let cards = document.querySelectorAll('.card');
+		document.addEventListener('pointermove', (event) => {
 			cards.forEach((ele) => {
 				const rect = ele.getBoundingClientRect();
-				ele.querySelector('.glow').style.setProperty("--glow-x", event.clientX - rect.left);
-				ele.querySelector('.glow').style.setProperty("--glow-y", event.clientY - rect.top);
+				ele.querySelector('.glow').style.setProperty('--glow-x', event.clientX - rect.left);
+				ele.querySelector('.glow').style.setProperty('--glow-y', event.clientY - rect.top);
 			});
 		});
+
+		let hidden = false;
+		function toggle() {
+			hidden = !hidden;
+			document.querySelectorAll('.dim').forEach(ele => {
+				ele.style.display = hidden ? ele.style.display = 'none' : ele.style.display = 'block';
+			});
+		}
+
+		function parseISO(isoStr) {
+			const date = new Date(isoStr);
+			const pad = (n) => n.toString().padStart(2, '0');
+			return [`${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear().toString().slice(-2)}`, `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`];
+		}
+		function markread(index, read) {
+			fetch(`https://qwk.pythonanywhere.com/contact/edit?key=${key}&index=${index}&read=${read ? 'false' : 'true'}`, { method: 'GET' })
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						const msg = document.getElementById(`msg-${index}`);
+						msg.querySelector('.markread').setAttribute('onclick', `markread(${index}, ${read ? 'false' : 'true'})`);
+						msg.className = 'card' + (read ? '' : ' dim');
+					} else {
+						alert('Error editing message:', data.error);
+						console.error('Error editing message:', data.error);
+					}
+				})
+				.catch(error => {
+					alert('Error editing message:', error);
+					console.error('Error editing message:', error);
+				});
+		}
+
+		function ctc(text) {
+			navigator.clipboard.writeText(text)
+				.then(() => alert('Copied to clipboard'))
+				.catch(err => {
+					alert('Error copying', err);
+					console.error("Failed to copy: ", err);
+				});
+		}
+
+		function copySqaReview(msg) {
+			const txt = `<div class="review">
+					<p>${msg.body}</p>
+					<h2>&mdash;&nbsp; ${msg.name}</h2>
+					<span class="rating">${'&#9733;'.repeat(parseInt(msg.rating))}${'&#9734;'.repeat(5 - parseInt(msg.rating))}</span>
+				</div>`;
+			ctc(txt);
+		}
+
+		fetch(`https://qwk.pythonanywhere.com/contact/api?key=${key}`, { method: 'GET' })
+			.then(response => response.json())
+			.then(data => {
+				const messages = document.getElementById('messages');
+				data.msgs.forEach((msg, index) => {
+					let card = document.createElement('div');
+					card.classList.add('card');
+					if (msg.read) {
+						card.classList.add('dim');
+					}
+					card.id = `msg-${index}`;
+					card.innerHTML = `
+						<div class="glow"></div>
+						<h2>${msg.ref}</h2>
+						<p class="main">${msg.body}</p>` +
+						(msg.rating ? `<p class="rating">Rating: <span>${msg.rating}</span>/5</p>` : '') + `
+						<h3>&mdash;&nbsp; ${msg.name}</h3>
+						<div class="info">
+							<h4>${parseISO(msg.time).join(' &nbsp;&bullet;&nbsp; ')}</h4>
+							<h5>${msg.ip}</h5>
+						</div>
+						<div class="buttons">
+							<button class="markread" onclick="markread(${index}, ${msg.read})">Read</button>` +
+							(msg.ref == 'SQA-Review' ? `<button class="sqacopy">Copy</button>` : '') +
+						`</div>
+					`;
+
+					// onclick="copySqaReview(${msg})"
+					messages.insertBefore(card, messages.firstChild);
+					messages.firstChild.querySelector('.sqacopy').addEventListener('click', () => copySqaReview(msg));
+				});
+				cards = document.querySelectorAll('.card');
+			})
+			.catch(error => {
+				alert('Error fetching messages:', error);
+				console.error('Error fetching messages:', error);
+			});
 	</script>
 </body>
 </html>
