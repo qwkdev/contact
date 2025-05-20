@@ -273,7 +273,9 @@
 
 					// onclick="copySqaReview(${msg})"
 					messages.insertBefore(card, messages.firstChild);
-					messages.firstChild.querySelector('.sqacopy').addEventListener('click', () => copySqaReview(msg));
+					if (msg.ref == 'SQA-Review') {
+						messages.firstChild.querySelector('.sqacopy').addEventListener('click', () => copySqaReview(msg));
+					}
 				});
 				cards = document.querySelectorAll('.card');
 			})
