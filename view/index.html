@@ -147,6 +147,8 @@
 		.dim {
 			--border: #323234;
 			--glow-clr: #f5f5ff22;
+
+			display: none;
 		}
 		.dim h2, .dim p, .dim h3, .dim h4, .dim h5, .dim .buttons button {
 			color: #777;
@@ -194,7 +196,7 @@
 			});
 		});
 
-		let hidden = false;
+		let hidden = true;
 		function toggle() {
 			hidden = !hidden;
 			document.querySelectorAll('.dim').forEach(ele => {
