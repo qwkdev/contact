@@ -207,7 +207,10 @@
 		function parseISO(isoStr) {
 			const date = new Date(isoStr);
 			const pad = (n) => n.toString().padStart(2, '0');
-			return [`${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear().toString().slice(-2)}`, `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`];
+			return [
+				`${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear().toString().slice(-2)}`,
+				`${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+			];
 		}
 		function markread(index, read) {
 			fetch(`https://qwk.pythonanywhere.com/contact/edit?key=${key}&index=${index}&read=${read ? 'false' : 'true'}`, { method: 'GET' })
