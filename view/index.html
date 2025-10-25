@@ -242,10 +242,10 @@
 
 		function copySqaReview(msg) {
 			const txt = `<div class="review">
-					<p>${msg.body}</p>
-					<h2>&mdash;&nbsp; ${msg.name}</h2>
-					<span class="rating">${'&#9733;'.repeat(parseInt(msg.rating))}${'&#9734;'.repeat(5 - parseInt(msg.rating))}</span>
-				</div>`;
+	<p>${msg.body}</p>
+	<h2>&mdash;&nbsp; ${msg.name}</h2>
+	<span class="rating">${'&#9733;'.repeat(parseInt(msg.rating))}${'&#9734;'.repeat(5 - parseInt(msg.rating))}</span>
+</div>`;
 			ctc(txt);
 		}
 
