@@ -131,6 +131,8 @@
 			text-align: right;
 		}
 		.card .buttons {
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: calc(var(--fs) * .5);
 			row-gap: var(--fs);
 		}
 		.card .buttons button {
@@ -212,14 +214,35 @@
 				`${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
 			];
 		}
-		function markread(index, read) {
-			fetch(`https://qwk.pythonanywhere.com/contact/edit?key=${key}&index=${index}&read=${read ? 'false' : 'true'}`, { method: 'GET' })
+		function makeread(index) {
+			markread(index, prompt('Response:'));
+		}
+		function markread(index, resp) {
+			fetch(`https://qwk.pythonanywhere.com/contact/read?key=${key}&id=${index}&resp=${resp}`, { method: 'GET' })
 				.then(response => response.json())
 				.then(data => {
 					if (data.success) {
 						const msg = document.getElementById(`msg-${index}`);
-						msg.querySelector('.markread').setAttribute('onclick', `markread(${index}, ${read ? 'false' : 'true'})`);
-						msg.className = 'card' + (read ? '' : ' dim');
+						msg.className = 'card' + (resp ? ' dim' : '');
+					} else {
+						alert('Error editing message:', data.error);
+						console.error('Error editing message:', data.error);
+					}
+				})
+				.catch(error => {
+					alert('Error editing message:', error);
+					console.error('Error editing message:', error);
+				});
+		}
+		function deletemsg(index) {
+			const confirm = prompt('Type "del" to delete:');
+			if (confirm !== 'del') return;
+			fetch(`https://qwk.pythonanywhere.com/contact/delete?key=${key}&id=${index}`, { method: 'GET' })
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						const msg = document.getElementById(`msg-${index}`);
+						msg.remove();
 					} else {
 						alert('Error editing message:', data.error);
 						console.error('Error editing message:', data.error);
@@ -253,13 +276,13 @@
 			.then(response => response.json())
 			.then(data => {
 				const messages = document.getElementById('messages');
-				data.msgs.forEach((msg, index) => {
+				data.msgs.forEach(msg => {
 					let card = document.createElement('div');
 					card.classList.add('card');
 					if (msg.read) {
 						card.classList.add('dim');
 					}
-					card.id = `msg-${index}`;
+					card.id = `msg-${msg.id}`;
 					card.innerHTML = `
 						<div class="glow"></div>
 						<h2>${msg.ref}</h2>
@@ -271,7 +294,8 @@
 							<h5>${msg.ip}</h5>
 						</div>
 						<div class="buttons">
-							<button class="markread" onclick="markread(${index}, ${msg.read})">Read</button>` +
+							<button class="markread" onclick="makeread(${msg.id})">Read</button>
+							<button class="markread" onclick="deletemsg(${msg.id})">Delete</button>` +
 							(msg.ref == 'SQA-Review' ? `<button class="sqacopy">Copy</button>` : '') +
 						`</div>
 					`;

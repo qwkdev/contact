@@ -1,1 +1,343 @@
-todo
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contact</title>
+
+	<style>
+		:root {
+			--u: 1.5vw;
+
+			--bg: #070708;
+			--fg: #1b1b1c;
+			--border-clr: #424244;
+
+			--glow-size: calc(20 * var(--u));
+			--glow-clr: #f5f5ff77;
+
+			--border: calc(.3 * var(--u));
+			--br: calc(1 * var(--u));
+
+			--cols: 1;
+		}
+
+		body {
+			margin: 0;
+			background: var(--bg);
+		}
+
+
+		header {
+			text-align: center;
+			color: #fff;
+			font-family: Arial, sans-serif;
+			font-weight: 500;
+			padding-top: calc(3 * var(--u));
+			padding-bottom: calc(2 * var(--u));
+
+			.glow-wrapper {
+				width: fit-content;
+				margin: 0 auto;
+			}
+			#title {
+				width: min-content;
+				padding: calc(1 * var(--u)) calc(2 * var(--u));
+				background: var(--fg);
+				border-radius: var(--br);
+
+				h1 {
+					margin: 0;
+					font-size: calc(3 * var(--u));
+				}
+			}
+			
+			p {
+				margin: 0;
+				margin-top: calc(1.8 * var(--u));
+				font-size: calc(1.5 * var(--u));
+				line-height: calc(2 * var(--u));
+			}
+			h1::selection, p::selection {
+				background-color: #bbb7;
+			}
+		}
+
+
+		main {
+			display: grid;
+			grid-template-columns: repeat(var(--cols), 1fr);
+			margin: 0 calc(3 * var(--u));
+			margin-bottom: calc(5 * var(--u));
+
+			gap: calc(3 * var(--u));
+
+		}
+		.glow-wrapper {
+			background-color: var(--border-clr);
+			background-image: radial-gradient(
+				circle at var(--x) var(--y), 
+				var(--glow-clr), transparent var(--glow-size));
+			background-attachment: fixed;
+
+			width: 100%;
+			height: max-content;
+			box-sizing: border-box;
+			padding: var(--border);
+			border-radius: calc(var(--br) + var(--border));
+		}
+		.message {
+			width: 100%;
+			box-sizing: border-box;
+
+			border-radius: var(--br);
+			background: var(--fg);
+
+			padding: calc(1.5 * var(--u));
+
+			h1, h2, h3, p {
+				margin: 0;
+				color: #fff;
+				font-family: Arial;
+				font-weight: 500;
+
+				&::selection {
+					background-color: #bbb7;
+				}
+			}
+			span::selection {
+				background-color: #bbb7;
+			}
+
+			h1 {
+				font-weight: 700;
+				font-size: calc(2 * var(--u));
+				margin-bottom: calc(1 * var(--u));
+			}
+			p {
+				font-size: calc(1.5 * var(--u));
+				/* margin-bottom: calc(1 * var(--u)); */
+			}
+			.rating {
+				display: inline-block;
+				margin-top: calc(.5 * var(--u));
+				color: #fc0;
+			}
+			h2 {
+				font-size: calc(1.5 * var(--u));
+				float: right;
+				margin-top: calc(.7 * var(--u));
+				margin-bottom: calc(1.2 * var(--u));
+			}
+			h3 {
+				font-size: calc(1.2 * var(--u));
+				clear: right;
+				color: #999;
+			}
+
+			&:has(~ .response) {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+		}
+		.response {
+			width: 100%;
+			box-sizing: border-box;
+
+			border-radius: var(--br);
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+			background: var(--fg);
+
+			margin-top: var(--border);
+			padding: calc(1.5 * var(--u));
+
+			h3, p {
+				margin: 0;
+				color: #fff;
+				font-family: Arial;
+				font-weight: 500;
+
+				&::selection {
+					background-color: #bbb7;
+				}
+			}
+			span::selection {
+				background-color: #bbb7;
+			}
+
+			p {
+				font-size: calc(1.5 * var(--u));
+			}
+			h3 {
+				margin-top: calc(.5 * var(--u));
+				clear: right;
+				color: #999;
+			}
+		}
+
+		#first {
+			width: 100%;
+			box-sizing: border-box;
+
+			border-radius: var(--br);
+			background: var(--fg);
+
+			padding: calc(1.5 * var(--u));
+
+			h1, p {
+				margin: 0;
+				color: #fff;
+				font-family: Arial;
+
+				text-align: center;
+			}
+			h1 {
+				font-weight: 700;
+				font-size: calc(2 * var(--u));
+				margin-bottom: calc(1 * var(--u));
+
+				&::selection {
+					background-color: #bbb7;
+				}
+			}
+			p {
+				font-weight: 500;
+				font-size: calc(10 * var(--u));
+				line-height: calc(8 * var(--u));
+
+				user-select: none;
+			}
+		}
+
+		#template {
+			display: none;
+		}
+
+		@media only screen and (min-aspect-ratio: 1/1) {
+			:root {
+				--u: 1.2vh;
+			}
+		}
+
+		@media only screen and (min-aspect-ratio: 2/3) {
+			:root { --cols: 2; }
+		}
+		@media only screen and (min-aspect-ratio: 3/3) {
+			:root { --cols: 3; }
+		}
+		@media only screen and (min-aspect-ratio: 5/3) {
+			:root { --cols: 4; }
+		}
+		@media only screen and (min-aspect-ratio: 7/3) {
+			:root { --cols: 5; }
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="glow-wrapper">
+			<div id="title">
+				<h1>contact.qwk.zone</h1>
+			</div>
+		</div>
+		<p>
+			Message form for contacting me,<br>
+			I (try to) respond to all messages.<br>
+			Messages are automatically removed 7 days after a response.
+		</p>
+	</header>
+
+	<main>
+		<div class="glow-wrapper">
+			<a href="https://qwk.pythonanywhere.com/contact" target="_blank" style="text-decoration: none;">
+				<div id="first">
+					<h1>Add your own</h1>
+					<p>+</p>
+				</div>
+			</a>
+		</div>
+		<div id="template" class="glow-wrapper">
+			<div class="message">
+				<h1></h1>
+				<p></p>
+				<h2>
+					&mdash;&nbsp;
+					<span data-value="name"></span>
+				</h2>
+				<h3>
+					<span data-value="date"></span>
+					&nbsp;&nbsp;&bullet;&nbsp;&nbsp;
+					<span data-value="time"></span>
+				</h3>
+			</div>
+			<div class="response">
+				<p></p>
+				<!-- <h3>
+					<span data-value="date"></span>
+					&nbsp;&nbsp;&bullet;&nbsp;&nbsp;
+					<span data-value="time"></span>
+				</h3> -->
+			</div>
+		</div>
+	</main>
+
+	<script>
+		document.addEventListener('mousemove', e => {
+			document.body.style.setProperty('--x', `${e.x}px`);
+			document.body.style.setProperty('--y', `${e.y}px`);
+		});
+
+		function parseISO(isoStr) {
+			const date = new Date(isoStr);
+			const pad = (n) => n.toString().padStart(2, '0');
+			return [
+				`${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear().toString().slice(-2)}`,
+				`${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+			];
+		}
+
+		const grid = document.querySelector('main');
+		const first = document.getElementById('first').parentElement.parentElement;
+		const template = document.getElementById('template');
+		fetch(`https://qwk.pythonanywhere.com/contact/api`, { method: 'GET' })
+			.then(response => response.json())
+			.then(data => {
+				data.msgs.forEach((msg, index) => {
+					let wrapper = template.cloneNode(true);
+					wrapper.removeAttribute('id');
+
+					let card = wrapper.querySelector('.message');
+					card.id = `msg-${index}`;
+
+					card.querySelector('h1').innerText = msg.ref;
+					card.querySelector('p').innerText = msg.body;
+					if (msg.rating) {
+						let rating = document.createElement('p');
+						rating.classList.add('rating');
+						rating.innerHTML = `${'&#9733;'.repeat(parseInt(msg.rating))}${'&#9734;'.repeat(5 - parseInt(msg.rating))}`;
+						card.querySelector('p').after(rating);
+					}
+
+					card.querySelector('span[data-value="name"]').innerText = msg.name;
+					const [date, time] = parseISO(msg.time);
+					card.querySelector('span[data-value="date"]').innerText = date;
+					card.querySelector('span[data-value="time"]').innerText = time;
+
+					let resp = wrapper.querySelector('.response');
+					if (msg.read) {
+						resp.querySelector('p').innerText = msg.read;
+					} else {
+						resp.remove();
+					}
+
+					first.after(wrapper);
+				});
+			})
+			.catch(error => {
+				alert('Error fetching messages:', error);
+				console.error('Error fetching messages:', error);
+			});
+	</script>
+</body>
+</html>
