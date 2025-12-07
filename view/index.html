@@ -289,7 +289,8 @@
 						<h2>${msg.ref}</h2>
 						<p class="main">${msg.body}</p>` +
 						(msg.rating ? `<p class="rating">Rating: <span>${msg.rating}</span>/5</p>` : '') + `
-						<h3>&mdash;&nbsp; ${msg.name}</h3>
+						<h3>&mdash;&nbsp; ${msg.name}</h3>` +
+						(msg.private ? `<h3>&mdash;&nbsp; ${msg.private}</h3>`: '') + `
 						<div class="info">
 							<h4>${parseISO(msg.time).join(' &nbsp;&bullet;&nbsp; ')}</h4>
 							<h5>${msg.ip}</h5>

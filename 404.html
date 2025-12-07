@@ -59,7 +59,8 @@
 			}
 			
 			p {
-				margin: 0;
+				width: 75%;
+				margin: 0 auto;
 				margin-top: calc(1.8 * var(--u));
 				font-size: calc(1.5 * var(--u));
 				line-height: calc(2 * var(--u));
@@ -123,6 +124,7 @@
 
 			border: none;
 
+			margin: 0;
 			padding: calc(1.5 * var(--u));
 			padding-left: calc(1.25 * var(--u));
 			color: #fff;
@@ -153,10 +155,69 @@
 			padding: 0;
 		}
 		
+		#success, #error {
+			width: 80%;
+			margin: 0 auto;
+			box-sizing: border-box;
+
+			p {
+				width: 100%;
+				box-sizing: border-box;
+				border-radius: var(--br);
+				background: var(--fg);
+
+				margin: 0;
+				padding: calc(1.5 * var(--u));
+				color: #fff;
+				font-family: Arial;
+				font-weight: 500;
+
+				font-size: calc(2 * var(--u));
+				
+				&::selection {
+					background-color: #bbb7;
+				}
+			}
+		}
+		.underlined {
+			color: #fff;
+			font-family: Arial;
+			font-weight: 500;
+			position: relative;
+			transition: .2s;
+			z-index: 2;
+			text-decoration: none;
+		}
+		.underline {
+			--widen: 0%;
+			--fix: 0%;
+			width: calc(100% + var(--widen));
+			transform: translateX(calc(-100% + var(--fix)));
+			height: 1px;
+			background: #fff;
+			position: absolute;
+			bottom: 0;
+			transition: .2s;
+			z-index: -1;
+		}
+		.underlined:hover {
+			color: #000;
+		}
+		.underlined:hover .underline {
+			height: 100%;
+		}
+		.underlined::selection {
+			background: #ffffff55;
+		}
+
 		@media only screen and (min-aspect-ratio: 1/1) {
 			:root {
 				--u: 1.2vh;
 			}
+		}
+
+		*[hidden] {
+			display: none;
 		}
 	</style>
 </head>
@@ -174,7 +235,7 @@
 		</p>
 	</header>
 
-	<main>
+	<main id="main">
 		<div id="msg-wrapper" class="glow-wrapper">
 			<textarea id="msg" placeholder="Enter message here..."></textarea>
 		</div>
@@ -183,19 +244,75 @@
 				<input type="text" id="name" placeholder="Name">
 			</div>
 			<div class="glow-wrapper">
-				<input type="text" id="private" placeholder="Private Info">
+				<input type="text" id="private" placeholder="Private Info (Email, Discord, Etc)">
 			</div>
 			<div class="glow-wrapper">
-				<button id="sumbit">Send</button>
+				<button id="sumbit" onclick="send()">Send</button>
 			</div>
 		</div>
 	</main>
 
+	<div class="glow-wrapper" id="success" hidden>
+		<p>
+			Your message has been sent and is viewable 
+			<span><a class="underlined" href="/">here<span class="underline" style="--widen: 3%; --fix: 1.7%;"></span></a></span><br>
+			Check back as I'll respond as soon as I can
+		</p>
+	</div>
+	<div class="glow-wrapper" id="error" hidden>
+		<p>
+			Failed to send message<br>
+			<span id="traceback"></span><br>
+			Please try again (later)
+		</p>
+	</div>
+
 	<script>
+		const REF = window.location.pathname.slice(1);
+
 		document.addEventListener('mousemove', e => {
 			document.body.style.setProperty('--x', `${e.x}px`);
 			document.body.style.setProperty('--y', `${e.y}px`);
 		});
+
+		const after = {
+			main: document.getElementById('main'),
+			success: document.getElementById('success'),
+			error: document.getElementById('error'),
+			traceback: document.getElementById('traceback')
+		}
+
+		const msg = document.getElementById('msg');
+		const name = document.getElementById('name');
+		const private = document.getElementById('private');
+		function send() {
+			if (!msg.value || !name.value || !private.value) return;
+			fetch('https://qwk.pythonanywhere.com/contact/send', {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					ref: REF,
+					msg: msg.value,
+					name: name.value,
+					private: private.value
+				})
+			})
+				.then(resp => resp.json())
+				.then(data => {
+					after.main.hidden = true;
+					after.success.hidden = !data.success;
+					after.error.hidden = data.success;
+					after.traceback.innerText = data.error || '';
+				})
+				.catch(e => {
+					after.main.hidden = true;
+					after.success.hidden = true;
+					after.error.hidden = false;
+					after.traceback.innerText = e || '';
+				})
+		}
 	</script>
 </body>
 </html>
