@@ -66,7 +66,7 @@
 
 		main {
 			display: grid;
-			grid-template-columns: repeat(var(--cols), 1fr);
+			grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
 			margin: 0 calc(3 * var(--u));
 			margin-bottom: calc(5 * var(--u));
 
@@ -100,6 +100,7 @@
 				color: #fff;
 				font-family: Arial;
 				font-weight: 500;
+				overflow-wrap: break-word;
 
 				&::selection {
 					background-color: #bbb7;

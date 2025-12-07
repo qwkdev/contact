@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contact</title>
+
+	<style>
+		:root {
+			--u: 1.5vw;
+
+			--bg: #070708;
+			--fg: #1b1b1c;
+			--border-clr: #424244;
+
+			--glow-size: calc(20 * var(--u));
+			--glow-clr: #f5f5ff77;
+			--glow-clr2: #f5f5ff44;
+
+			--border: calc(.3 * var(--u));
+			--br: calc(1 * var(--u));
+		}
+
+		html {
+			height: 100%;
+		}
+		body {
+			margin: 0;
+			background: var(--bg);
+
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+
+
+		header {
+			text-align: center;
+			color: #fff;
+			font-family: Arial, sans-serif;
+			font-weight: 500;
+			padding-top: calc(3 * var(--u));
+			padding-bottom: calc(2 * var(--u));
+
+			.glow-wrapper {
+				width: fit-content;
+				margin: 0 auto;
+			}
+			#title {
+				width: min-content;
+				padding: calc(1 * var(--u)) calc(2 * var(--u));
+				background: var(--fg);
+				border-radius: var(--br);
+
+				h1 {
+					margin: 0;
+					font-size: calc(3 * var(--u));
+				}
+			}
+			
+			p {
+				margin: 0;
+				margin-top: calc(1.8 * var(--u));
+				font-size: calc(1.5 * var(--u));
+				line-height: calc(2 * var(--u));
+			}
+			h1::selection, p::selection {
+				background-color: #bbb7;
+			}
+		}
+
+
+		main {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			margin: 0 calc(3 * var(--u));
+			margin-bottom: calc(5 * var(--u));
+
+			flex: 1;
+
+			gap: calc(1 * var(--u));
+		}
+
+		.glow-wrapper {
+			background-color: var(--border-clr);
+			background-image: radial-gradient(
+				circle at var(--x) var(--y), 
+				var(--glow-clr), transparent var(--glow-size));
+			background-attachment: fixed;
+
+			width: 100%;
+			height: max-content;
+			height: auto;
+			box-sizing: border-box;
+			padding: var(--border);
+			border-radius: calc(var(--br) + var(--border));
+		}
+
+		#info {
+			display: grid;
+			grid-template-columns: 4fr 1fr;
+			grid-template-rows: 1fr 1fr;
+			gap: calc(1 * var(--u));
+
+			.glow-wrapper:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
+			.glow-wrapper:nth-child(2) { grid-area: 2 / 1 / 3 / 2; }
+			.glow-wrapper:nth-child(3) { grid-area: 1 / 2 / 3 / 3; }
+
+			.glow-wrapper {
+				height: 100%;
+
+				input[type="text"], button {
+					height: 100%;
+				}
+			}
+		}
+		textarea, input[type="text"], button {
+			width: 100%;
+			box-sizing: border-box;
+			border-radius: var(--br);
+			background: var(--fg);
+
+			border: none;
+
+			padding: calc(1.5 * var(--u));
+			padding-left: calc(1.25 * var(--u));
+			color: #fff;
+			font-family: Arial;
+			font-weight: 500;
+
+			font-size: calc(2 * var(--u));
+			
+			&::selection {
+				background-color: #bbb7;
+			}
+			&:focus {
+				outline: var(--border) solid var(--glow-clr2);
+			}
+		}
+		#msg-wrapper {
+			flex: 1;
+		}
+		#msg {
+			resize: none;
+			height: 100%;
+
+			padding: calc(2 * var(--u));
+			padding-left: calc(1.75 * var(--u));
+			font-size: calc(2.5 * var(--u));
+		}
+		button {
+			padding: 0;
+		}
+		
+		@media only screen and (min-aspect-ratio: 1/1) {
+			:root {
+				--u: 1.2vh;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="glow-wrapper">
+			<div id="title">
+				<h1>contact.qwk.zone</h1>
+			</div>
+		</div>
+		<p>
+			Please note that all messages are public,
+			apart from the specific "private" field
+			for usernames or emails.
+		</p>
+	</header>
+
+	<main>
+		<div id="msg-wrapper" class="glow-wrapper">
+			<textarea id="msg" placeholder="Enter message here..."></textarea>
+		</div>
+		<div id="info">
+			<div class="glow-wrapper">
+				<input type="text" id="name" placeholder="Name">
+			</div>
+			<div class="glow-wrapper">
+				<input type="text" id="private" placeholder="Private Info">
+			</div>
+			<div class="glow-wrapper">
+				<button id="sumbit">Send</button>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		document.addEventListener('mousemove', e => {
+			document.body.style.setProperty('--x', `${e.x}px`);
+			document.body.style.setProperty('--y', `${e.y}px`);
+		});
+	</script>
+</body>
+</html>

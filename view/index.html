@@ -82,7 +82,7 @@
 			margin: calc(var(--gap) - var(--bw)) var(--gap) calc((var(--gap) - var(--bw)) + var(--toggle-height) + var(--gap)) var(--gap);
 
 			display: grid;
-			grid-template-columns: repeat(var(--columns), 1fr);
+			grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
 			gap: var(--gap);
 		}
 		.card {
@@ -97,6 +97,7 @@
 			font-family: Arial;
 			color: #fff;
 			font-weight: 500;
+			overflow-wrap: break-word;
 		}
 		.card h2 {
 			font-weight: 700;
