@@ -6,233 +6,206 @@
 	<title>Contact</title>
 
 	<style>
-		:root {
-			--u: 1.5vw;
-
-			--bg: #070708;
-			--fg: #1b1b1c;
-			--border-clr: #424244;
-
-			--glow-size: calc(20 * var(--u));
-			--glow-clr: #f5f5ff77;
-
-			--border: calc(.3 * var(--u));
-			--br: calc(1 * var(--u));
-
-			--cols: 1;
-		}
-
-		body {
-			margin: 0;
-			background: var(--bg);
-		}
-
-
-		header {
-			text-align: center;
-			color: #fff;
-			font-family: Arial, sans-serif;
-			font-weight: 500;
-			padding-top: calc(3 * var(--u));
-			padding-bottom: calc(2 * var(--u));
-
-			.glow-wrapper {
-				width: fit-content;
-				margin: 0 auto;
-			}
-			#title {
-				width: min-content;
-				padding: calc(1 * var(--u)) calc(2 * var(--u));
-				background: var(--fg);
-				border-radius: var(--br);
-
-				h1 {
-					margin: 0;
-					font-size: calc(3 * var(--u));
-				}
-			}
-			
-			p {
-				margin: 0;
-				margin-top: calc(1.8 * var(--u));
-				font-size: calc(1.5 * var(--u));
-				line-height: calc(2 * var(--u));
-			}
-			h1::selection, p::selection {
-				background-color: #bbb7;
-			}
-		}
-
-
-		main {
-			display: grid;
-			grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-			margin: 0 calc(3 * var(--u));
-			margin-bottom: calc(5 * var(--u));
-
-			gap: calc(3 * var(--u));
-
-		}
-		.glow-wrapper {
-			background-color: var(--border-clr);
-			background-image: radial-gradient(
-				circle at var(--x) var(--y), 
-				var(--glow-clr), transparent var(--glow-size));
-			background-attachment: fixed;
-
-			width: 100%;
-			height: max-content;
-			box-sizing: border-box;
-			padding: var(--border);
-			border-radius: calc(var(--br) + var(--border));
-		}
-		.message {
-			width: 100%;
-			box-sizing: border-box;
-
-			border-radius: var(--br);
-			background: var(--fg);
-
-			padding: calc(1.5 * var(--u));
-
-			h1, h2, h3, p {
-				margin: 0;
-				color: #fff;
-				font-family: Arial;
-				font-weight: 500;
-				overflow-wrap: break-word;
-
-				&::selection {
-					background-color: #bbb7;
-				}
-			}
-			span::selection {
-				background-color: #bbb7;
-			}
-
-			h1 {
-				font-weight: 700;
-				font-size: calc(2 * var(--u));
-				margin-bottom: calc(1 * var(--u));
-			}
-			p {
-				font-size: calc(1.5 * var(--u));
-				/* margin-bottom: calc(1 * var(--u)); */
-			}
-			.rating {
-				display: inline-block;
-				margin-top: calc(.5 * var(--u));
-				color: #fc0;
-			}
-			h2 {
-				font-size: calc(1.5 * var(--u));
-				float: right;
-				margin-top: calc(.7 * var(--u));
-				margin-bottom: calc(1.2 * var(--u));
-			}
-			h3 {
-				font-size: calc(1.2 * var(--u));
-				clear: right;
-				color: #999;
-			}
-
-			&:has(~ .response) {
-				border-bottom-left-radius: 0;
-				border-bottom-right-radius: 0;
-			}
-		}
-		.response {
-			width: 100%;
-			box-sizing: border-box;
-
-			border-radius: var(--br);
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-			background: var(--fg);
-
-			margin-top: var(--border);
-			padding: calc(1.5 * var(--u));
-
-			h3, p {
-				margin: 0;
-				color: #fff;
-				font-family: Arial;
-				font-weight: 500;
-
-				&::selection {
-					background-color: #bbb7;
-				}
-			}
-			span::selection {
-				background-color: #bbb7;
-			}
-
-			p {
-				font-size: calc(1.5 * var(--u));
-			}
-			h3 {
-				margin-top: calc(.5 * var(--u));
-				clear: right;
-				color: #999;
-			}
-		}
-
-		#first {
-			width: 100%;
-			box-sizing: border-box;
-
-			border-radius: var(--br);
-			background: var(--fg);
-
-			padding: calc(1.5 * var(--u));
-
-			h1, p {
-				margin: 0;
-				color: #fff;
-				font-family: Arial;
-
-				text-align: center;
-			}
-			h1 {
-				font-weight: 700;
-				font-size: calc(2 * var(--u));
-				margin-bottom: calc(1 * var(--u));
-
-				&::selection {
-					background-color: #bbb7;
-				}
-			}
-			p {
-				font-weight: 500;
-				font-size: calc(10 * var(--u));
-				line-height: calc(8 * var(--u));
-
-				user-select: none;
-			}
-		}
-
-		#template {
-			display: none;
-		}
-
-		@media only screen and (min-aspect-ratio: 1/1) {
-			:root {
-				--u: 1.2vh;
-			}
-		}
-
-		@media only screen and (min-aspect-ratio: 2/3) {
-			:root { --cols: 2; }
-		}
-		@media only screen and (min-aspect-ratio: 3/3) {
-			:root { --cols: 3; }
-		}
-		@media only screen and (min-aspect-ratio: 5/3) {
-			:root { --cols: 4; }
-		}
-		@media only screen and (min-aspect-ratio: 7/3) {
-			:root { --cols: 5; }
-		}
+:root {
+	--u: 1.5vw;
+	--bg: #070708;
+	--fg: #1b1b1c;
+	--border-clr: #424244;
+	--glow-size: calc(20 * var(--u));
+	--glow-clr: #f5f5ff77;
+	--border: calc(.3 * var(--u));
+	--br: calc(1 * var(--u));
+	--cols: 1;
+}
+body {
+	margin: 0;
+	background: var(--bg);
+}
+header {
+	text-align: center;
+	color: #fff;
+	font-family: Arial, sans-serif;
+	font-weight: 500;
+	padding-top: calc(3 * var(--u));
+	padding-bottom: calc(2 * var(--u));
+}
+header .glow-wrapper {
+	width: fit-content;
+	margin: 0 auto;
+}
+header #title {
+	width: min-content;
+	padding: calc(1 * var(--u)) calc(2 * var(--u));
+	background: var(--fg);
+	border-radius: var(--br);
+}
+header #title h1 {
+	margin: 0;
+	font-size: calc(3 * var(--u));
+}
+header p {
+	margin: 0;
+	margin-top: calc(1.8 * var(--u));
+	font-size: calc(1.5 * var(--u));
+	line-height: calc(2 * var(--u));
+}
+header h1::selection, header p::selection {
+	background-color: #bbb7;
+}
+main {
+	display: grid;
+	grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+	margin: 0 calc(3 * var(--u));
+	margin-bottom: calc(5 * var(--u));
+	gap: calc(3 * var(--u));
+}
+.glow-wrapper {
+	background-color: var(--border-clr);
+	background-image: radial-gradient(
+	circle at var(--x) var(--y),
+	var(--glow-clr), transparent var(--glow-size));
+	background-attachment: fixed;
+	width: 100%;
+	height: max-content;
+	box-sizing: border-box;
+	padding: var(--border);
+	border-radius: calc(var(--br) + var(--border));
+}
+.message {
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: var(--br);
+	background: var(--fg);
+	padding: calc(1.5 * var(--u));
+}
+.message h1, .message h2, .message h3, .message p {
+	margin: 0;
+	color: #fff;
+	font-family: Arial;
+	font-weight: 500;
+	overflow-wrap: break-word;
+}
+.message h1::selection, .message h2::selection, .message h3::selection, .message p::selection {
+	background-color: #bbb7;
+}
+.message span::selection {
+	background-color: #bbb7;
+}
+.message h1 {
+	font-weight: 700;
+	font-size: calc(2 * var(--u));
+	margin-bottom: calc(1 * var(--u));
+}
+.message p {
+	font-size: calc(1.5 * var(--u));
+	/* margin-bottom: calc(1 * var(--u));
+	*/
+}
+.message .rating {
+	display: inline-block;
+	margin-top: calc(.5 * var(--u));
+	color: #fc0;
+}
+.message h2 {
+	font-size: calc(1.5 * var(--u));
+	float: right;
+	margin-top: calc(.7 * var(--u));
+	margin-bottom: calc(1.2 * var(--u));
+}
+.message h3 {
+	font-size: calc(1.2 * var(--u));
+	clear: right;
+	color: #999;
+}
+.message:has(~ .response) {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.response {
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: var(--br);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	background: var(--fg);
+	margin-top: var(--border);
+	padding: calc(1.5 * var(--u));
+}
+.response h3, .response p {
+	margin: 0;
+	color: #fff;
+	font-family: Arial;
+	font-weight: 500;
+}
+.response h3::selection, .response p::selection {
+	background-color: #bbb7;
+}
+.response span::selection {
+	background-color: #bbb7;
+}
+.response p {
+	font-size: calc(1.5 * var(--u));
+}
+.response h3 {
+	margin-top: calc(.5 * var(--u));
+	clear: right;
+	color: #999;
+}
+#first {
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: var(--br);
+	background: var(--fg);
+	padding: calc(1.5 * var(--u));
+}
+#first h1, #first p {
+	margin: 0;
+	color: #fff;
+	font-family: Arial;
+	text-align: center;
+}
+#first h1 {
+	font-weight: 700;
+	font-size: calc(2 * var(--u));
+	margin-bottom: calc(1 * var(--u));
+}
+#first h1::selection {
+	background-color: #bbb7;
+}
+#first p {
+	font-weight: 500;
+	font-size: calc(10 * var(--u));
+	line-height: calc(8 * var(--u));
+	user-select: none;
+}
+#template {
+	display: none;
+}
+@media only screen and (min-aspect-ratio: 1/1) {
+	:root {
+		--u: 1.2vh;
+	}
+}
+@media only screen and (min-aspect-ratio: 2/3) {
+	:root {
+		--cols: 2;
+	}
+}
+@media only screen and (min-aspect-ratio: 3/3) {
+	:root {
+		--cols: 3;
+	}
+}
+@media only screen and (min-aspect-ratio: 5/3) {
+	:root {
+		--cols: 4;
+	}
+}
+@media only screen and (min-aspect-ratio: 7/3) {
+	:root {
+		--cols: 5;
+	}
+}
 	</style>
 </head>
 <body>
