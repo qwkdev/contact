@@ -57,11 +57,19 @@
 			z-index: -1;
 		}
 
-		#toggle {
+		#extra {
 			position: fixed;
 			bottom: var(--gap);
 			right: var(--gap);
 
+			display: flex;
+			flex-direction: column;
+			gap: calc(var(--gap) / 2);
+
+			z-index: 100;
+		}
+
+		#extra button {
 			height: var(--toggle-height);
 			padding: 0 var(--gap);
 
@@ -72,14 +80,12 @@
 			font-family: Arial;
 			font-weight: 500;
 			font-size: calc(var(--toggle-height) * 0.4);
-
-			z-index: 100;
 		}
 
 		#messages {
 			width: calc(100% - (2 * var(--gap)));
 			height: max-content;
-			margin: calc(var(--gap) - var(--bw)) var(--gap) calc((var(--gap) - var(--bw)) + var(--toggle-height) + var(--gap)) var(--gap);
+			margin: calc(var(--gap) - var(--bw)) var(--gap) calc((var(--gap) - var(--bw)) + var(--toggle-height)*2 + var(--gap)*1.5) var(--gap);
 
 			display: grid;
 			grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
@@ -150,12 +156,15 @@
 		.dim {
 			--border: #323234;
 			--glow-clr: #f5f5ff22;
-
-			display: none;
 		}
 		.dim h2, .dim p, .dim h3, .dim h4, .dim h5, .dim .buttons button {
 			color: #777;
 		}
+
+		*[hidden] {
+			display: none;
+		}
+
 		button { transition: .2s; }
 		button:hover { transform: scale(1.02); }
 
@@ -177,7 +186,10 @@
 <body>
 	<div id="messages">
 	</div>
-	<button id="toggle" onclick="toggle()">Show/Hide</button>
+	<div id="extra">
+		<button onclick="copyAll()">Copy All</button>
+		<button onclick="toggle()">Show/Hide</button>
+	</div>
 
 	
 
@@ -203,7 +215,7 @@
 		function toggle() {
 			hidden = !hidden;
 			document.querySelectorAll('.dim').forEach(ele => {
-				ele.style.display = hidden ? ele.style.display = 'none' : ele.style.display = 'block';
+				ele.hidden = !ele.hidden
 			});
 		}
 
@@ -264,24 +276,48 @@
 				});
 		}
 
-		function copySqaReview(msg) {
+		function getMsg(index) {
+			for (const ele of globalMessages) {
+				if (ele.id === parseInt(index)) return ele;
+			}
+		}
+
+		function copySqaReview(index, copy=true) {
+			const msg = getMsg(index);
 			const txt = `<div class="review">
 	<p>${msg.body}</p>
 	<h2>&mdash;&nbsp; ${msg.name}</h2>
 	<span class="rating">${'&#9733;'.repeat(parseInt(msg.rating))}${'&#9734;'.repeat(5 - parseInt(msg.rating))}</span>
 </div>`;
-			ctc(txt);
+			if (copy) ctc(txt);
+			return txt
 		}
+
+		function copyAll() {
+			let resp = '';
+			document.querySelectorAll('.card:not(.dim)').forEach(ele => {
+				const index = parseInt(ele.id.slice(4));
+				const text = copySqaReview(index, false);
+				resp = resp + '\n' + text;
+			});
+
+			ctc(resp);
+		}
+
+		let globalMessages;
 
 		fetch(`https://qwk.pythonanywhere.com/contact/api?key=${key}`, { method: 'GET' })
 			.then(response => response.json())
 			.then(data => {
+				globalMessages = data.msgs;
+
 				const messages = document.getElementById('messages');
 				data.msgs.forEach(msg => {
 					let card = document.createElement('div');
 					card.classList.add('card');
 					if (msg.read) {
 						card.classList.add('dim');
+						card.hidden = true;
 					}
 					card.id = `msg-${msg.id}`;
 					card.innerHTML = `
@@ -298,15 +334,11 @@
 						<div class="buttons">
 							<button class="markread" onclick="makeread(${msg.id})">Read</button>
 							<button class="markread" onclick="deletemsg(${msg.id})">Delete</button>` +
-							(msg.ref == 'SQA-Review' ? `<button class="sqacopy">Copy</button>` : '') +
+							(msg.ref == 'SQA-Review' ? `<button class="sqacopy" onclick="copySqaReview(${msg.id})">Copy</button>` : '') +
 						`</div>
 					`;
 
-					// onclick="copySqaReview(${msg})"
 					messages.insertBefore(card, messages.firstChild);
-					if (msg.ref == 'SQA-Review') {
-						messages.firstChild.querySelector('.sqacopy').addEventListener('click', () => copySqaReview(msg));
-					}
 				});
 				cards = document.querySelectorAll('.card');
 			})
